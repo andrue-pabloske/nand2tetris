@@ -1,0 +1,149 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux8Way16.hdl
+
+/**
+ * 8-way 16-bit multiplexor:
+ * out = a if sel == 000
+ *       b if sel == 001
+ *       etc.
+ *       h if sel == 111
+ */
+
+CHIP Mux8Way16 {
+    IN a[16], b[16], c[16], d[16],
+       e[16], f[16], g[16], h[16],
+       sel[3];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+	Mux(a=a[0], b=b[0], sel=sel[0], out=t00);
+	Mux(a=c[0], b=d[0], sel=sel[0], out=t01);
+	Mux(a=e[0], b=f[0], sel=sel[0], out=t02);
+	Mux(a=g[0], b=h[0], sel=sel[0], out=t03);
+	Mux(a=t00, b=t01, sel=sel[1], out=t04);
+	Mux(a=t02, b=t03, sel=sel[1], out=t05);
+	Mux(a=t04, b=t05, sel=sel[2], out=out[0]);
+	
+	Mux(a=a[1], b=b[1], sel=sel[0], out=t10);
+	Mux(a=c[1], b=d[1], sel=sel[0], out=t11);
+	Mux(a=e[1], b=f[1], sel=sel[0], out=t12);
+	Mux(a=g[1], b=h[1], sel=sel[0], out=t13);
+	Mux(a=t10, b=t11, sel=sel[1], out=t14);
+	Mux(a=t12, b=t13, sel=sel[1], out=t15);
+	Mux(a=t14, b=t15, sel=sel[2], out=out[1]);
+	
+	Mux(a=a[2], b=b[2], sel=sel[0], out=t20);
+	Mux(a=c[2], b=d[2], sel=sel[0], out=t21);
+	Mux(a=e[2], b=f[2], sel=sel[0], out=t22);
+	Mux(a=g[2], b=h[2], sel=sel[0], out=t23);
+	Mux(a=t20, b=t21, sel=sel[1], out=t24);
+	Mux(a=t22, b=t23, sel=sel[1], out=t25);
+	Mux(a=t24, b=t25, sel=sel[2], out=out[2]);
+	
+	Mux(a=a[3], b=b[3], sel=sel[0], out=t30);
+	Mux(a=c[3], b=d[3], sel=sel[0], out=t31);
+	Mux(a=e[3], b=f[3], sel=sel[0], out=t32);
+	Mux(a=g[3], b=h[3], sel=sel[0], out=t33);
+	Mux(a=t30, b=t31, sel=sel[1], out=t34);
+	Mux(a=t32, b=t33, sel=sel[1], out=t35);
+	Mux(a=t34, b=t35, sel=sel[2], out=out[3]);
+	
+	Mux(a=a[4], b=b[4], sel=sel[0], out=t40);
+	Mux(a=c[4], b=d[4], sel=sel[0], out=t41);
+	Mux(a=e[4], b=f[4], sel=sel[0], out=t42);
+	Mux(a=g[4], b=h[4], sel=sel[0], out=t43);
+	Mux(a=t40, b=t41, sel=sel[1], out=t44);
+	Mux(a=t42, b=t43, sel=sel[1], out=t45);
+	Mux(a=t44, b=t45, sel=sel[2], out=out[4]);
+	
+	Mux(a=a[5], b=b[5], sel=sel[0], out=t50);
+	Mux(a=c[5], b=d[5], sel=sel[0], out=t51);
+	Mux(a=e[5], b=f[5], sel=sel[0], out=t52);
+	Mux(a=g[5], b=h[5], sel=sel[0], out=t53);
+	Mux(a=t50, b=t51, sel=sel[1], out=t54);
+	Mux(a=t52, b=t53, sel=sel[1], out=t55);
+	Mux(a=t54, b=t55, sel=sel[2], out=out[5]);
+	
+	Mux(a=a[6], b=b[6], sel=sel[0], out=t60);
+	Mux(a=c[6], b=d[6], sel=sel[0], out=t61);
+	Mux(a=e[6], b=f[6], sel=sel[0], out=t62);
+	Mux(a=g[6], b=h[6], sel=sel[0], out=t63);
+	Mux(a=t60, b=t61, sel=sel[1], out=t64);
+	Mux(a=t62, b=t63, sel=sel[1], out=t65);
+	Mux(a=t64, b=t65, sel=sel[2], out=out[6]);
+	
+	Mux(a=a[7], b=b[7], sel=sel[0], out=t70);
+	Mux(a=c[7], b=d[7], sel=sel[0], out=t71);
+	Mux(a=e[7], b=f[7], sel=sel[0], out=t72);
+	Mux(a=g[7], b=h[7], sel=sel[0], out=t73);
+	Mux(a=t70, b=t71, sel=sel[1], out=t74);
+	Mux(a=t72, b=t73, sel=sel[1], out=t75);
+	Mux(a=t74, b=t75, sel=sel[2], out=out[7]);
+	
+	Mux(a=a[8], b=b[8], sel=sel[0], out=t80);
+	Mux(a=c[8], b=d[8], sel=sel[0], out=t81);
+	Mux(a=e[8], b=f[8], sel=sel[0], out=t82);
+	Mux(a=g[8], b=h[8], sel=sel[0], out=t83);
+	Mux(a=t80, b=t81, sel=sel[1], out=t84);
+	Mux(a=t82, b=t83, sel=sel[1], out=t85);
+	Mux(a=t84, b=t85, sel=sel[2], out=out[8]);
+	
+	Mux(a=a[9], b=b[9], sel=sel[0], out=t90);
+	Mux(a=c[9], b=d[9], sel=sel[0], out=t91);
+	Mux(a=e[9], b=f[9], sel=sel[0], out=t92);
+	Mux(a=g[9], b=h[9], sel=sel[0], out=t93);
+	Mux(a=t90, b=t91, sel=sel[1], out=t94);
+	Mux(a=t92, b=t93, sel=sel[1], out=t95);
+	Mux(a=t94, b=t95, sel=sel[2], out=out[9]);
+	
+	Mux(a=a[10], b=b[10], sel=sel[0], out=t100);
+	Mux(a=c[10], b=d[10], sel=sel[0], out=t101);
+	Mux(a=e[10], b=f[10], sel=sel[0], out=t102);
+	Mux(a=g[10], b=h[10], sel=sel[0], out=t103);
+	Mux(a=t100, b=t101, sel=sel[1], out=t104);
+	Mux(a=t102, b=t103, sel=sel[1], out=t105);
+	Mux(a=t104, b=t105, sel=sel[2], out=out[10]);
+	
+	Mux(a=a[11], b=b[11], sel=sel[0], out=t110);
+	Mux(a=c[11], b=d[11], sel=sel[0], out=t111);
+	Mux(a=e[11], b=f[11], sel=sel[0], out=t112);
+	Mux(a=g[11], b=h[11], sel=sel[0], out=t113);
+	Mux(a=t110, b=t111, sel=sel[1], out=t114);
+	Mux(a=t112, b=t113, sel=sel[1], out=t115);
+	Mux(a=t114, b=t115, sel=sel[2], out=out[11]);
+	
+	Mux(a=a[12], b=b[12], sel=sel[0], out=t120);
+	Mux(a=c[12], b=d[12], sel=sel[0], out=t121);
+	Mux(a=e[12], b=f[12], sel=sel[0], out=t122);
+	Mux(a=g[12], b=h[12], sel=sel[0], out=t123);
+	Mux(a=t120, b=t121, sel=sel[1], out=t124);
+	Mux(a=t122, b=t123, sel=sel[1], out=t125);
+	Mux(a=t124, b=t125, sel=sel[2], out=out[12]);
+	
+	Mux(a=a[13], b=b[13], sel=sel[0], out=t130);
+	Mux(a=c[13], b=d[13], sel=sel[0], out=t131);
+	Mux(a=e[13], b=f[13], sel=sel[0], out=t132);
+	Mux(a=g[13], b=h[13], sel=sel[0], out=t133);
+	Mux(a=t130, b=t131, sel=sel[1], out=t134);
+	Mux(a=t132, b=t133, sel=sel[1], out=t135);
+	Mux(a=t134, b=t135, sel=sel[2], out=out[13]);
+	
+	Mux(a=a[14], b=b[14], sel=sel[0], out=t140);
+	Mux(a=c[14], b=d[14], sel=sel[0], out=t141);
+	Mux(a=e[14], b=f[14], sel=sel[0], out=t142);
+	Mux(a=g[14], b=h[14], sel=sel[0], out=t143);
+	Mux(a=t140, b=t141, sel=sel[1], out=t144);
+	Mux(a=t142, b=t143, sel=sel[1], out=t145);
+	Mux(a=t144, b=t145, sel=sel[2], out=out[14]);
+	
+	Mux(a=a[15], b=b[15], sel=sel[0], out=t150);
+	Mux(a=c[15], b=d[15], sel=sel[0], out=t151);
+	Mux(a=e[15], b=f[15], sel=sel[0], out=t152);
+	Mux(a=g[15], b=h[15], sel=sel[0], out=t153);
+	Mux(a=t150, b=t151, sel=sel[1], out=t154);
+	Mux(a=t152, b=t153, sel=sel[1], out=t155);
+	Mux(a=t154, b=t155, sel=sel[2], out=out[15]);
+}
