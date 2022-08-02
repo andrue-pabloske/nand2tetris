@@ -1,0 +1,293 @@
+/** Implements the solution and visualization of the n queens problem */
+class Board {
+	field int size;
+	field Array grid;
+
+	static int EMPTY;
+	static int QUEEN;
+	static int RESTRICTED;
+	
+	constructor Board new(int n){
+		let size = n;
+		let EMPTY = 1;
+		let QUEEN = 2;
+		let RESTRICTED = 3;
+		do initGrid();
+		do initSquares();
+		return this;
+	}
+	
+	constructor Board copy(Board board) {
+		var Square thisSquare;
+		var Square thatSquare;
+		var int state;
+		var int i;
+		var int j;
+		let size = board.getSize();
+		let EMPTY = 1;
+		let QUEEN = 2;
+		let RESTRICTED = 3;
+		do initGrid();
+		do initSquares();
+		let i = 0;
+		let j = 0;
+		while(i < size){
+			while(j < size){
+				let thisSquare = getSquare(i, j);
+				let thatSquare = board.getSquare(i, j);
+				let state = thatSquare.getState();
+				do thisSquare.setState(state);
+				let j = j + 1;
+			}
+			let i = i + 1;
+		}
+		return this;
+	}
+	
+	method void dispose(){
+		do disposeSquares();
+		do disposeGrid();
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	method void displaySolution(){
+		var Board solvedBoard;
+		let solvedBoard = placeQueens(this, size);
+		do solvedBoard.print();
+		return;
+	}
+	
+	method Board placeQueens(Board board, int queensRemaining) {
+		var Board newBoard;
+		var Array emptySquare;
+		if(queensRemaining = 0) {
+			return board;
+		} else {
+			while(~(board = null) & board.hasEmpty()) {
+				let emptySquare = board.findEmpty();
+				let newBoard = Board.copy(board);
+				do newBoard.placeQueen(emptySquare[0], emptySquare[1]);
+				let newBoard = newBoard.placeQueens(newBoard, queensRemaining - 1);
+				if (newBoard = null) {
+					do newBoard.dispose();
+					do board.restrictSquare(emptySquare[0], emptySquare[1]);
+				} else {
+					return newBoard;
+				}
+			}
+			return null;
+		}
+	}
+	
+	method boolean hasEmpty() {
+		var Square square;
+		var int state;
+		var int i, j;
+		let i = 0;
+		let j = 0;
+		
+		while(i < size) {
+			while(j < size) {
+				let square = getSquare(i, j);
+				let state = square.getState();
+				if (state = 1) {
+					return true;
+				}
+				let j = j + 1;
+			}
+			let i = i + 1;
+		}
+		return false;
+	}
+	
+	method Array findEmpty() {
+		var Array coordinates;
+		var Square square;
+		var int state;
+		var int i, j;
+		let coordinates = Array.new(2);
+		let i = 0;
+		let j = 0;
+		
+		while(i < size) {
+			while(j < size) {
+				let square = getSquare(i, j);
+				let state = square.getState();
+				if (state = 1) {
+					let coordinates[0] = i;
+					let coordinates[1] = j;
+					return coordinates;
+				}
+				let j = j + 1;
+			}
+			let i = i + 1;
+		}
+		let coordinates[0] = -1;
+		let coordinates[1] = -1;
+		return coordinates;
+	}
+	
+	method void placeQueen(int row, int col){
+		var Square square;
+		let square = getSquare(row, col);
+		do square.setState(QUEEN);
+		do restrictRow(row);
+		do restrictCol(col);
+		do restrictDiagonals(row, col);
+		return;
+	}
+	
+	method void restrictDiagonals(int row, int col) {
+		var int currentRow, currentCol;
+		
+		let currentRow = row;
+		let currentCol = col;
+		while (currentRow > -1 & currentCol > -1) {
+			do restrictSquare(currentRow, currentCol);
+			let currentRow = currentRow - 1;
+			let currentCol = currentCol - 1;
+		}
+	  
+		let currentRow = row;
+		let currentCol = col;
+		while (currentRow < size & currentCol > -1) {
+			do restrictSquare(currentRow, currentCol);
+			let currentRow = currentRow + 1;
+			let currentCol = currentCol - 1;
+		}
+	  
+		let currentRow = row;
+		let currentCol = col;
+		while (currentRow > -1 & currentCol < size) {
+			do restrictSquare(currentRow, currentCol);
+			let currentRow = currentRow - 1;
+			let currentCol = currentCol + 1;
+		}
+	  
+		let currentRow = row;
+		let currentCol = col;
+		while (currentRow < size & currentCol < size) {
+			do restrictSquare(currentRow, currentCol);
+			let currentRow = currentRow + 1;
+			let currentCol = currentCol + 1;
+		}
+		return;
+	}
+	
+	method void restrictCol(int col) {
+		var int i;
+		let i = 0;
+		while(i < size) {
+			do restrictSquare(i, col);
+			let i = i + 1;
+		}
+		return;
+	}
+	
+	method void restrictRow(int row) {
+		var int i;
+		let i = 0;
+		while(i < size) {
+			do restrictSquare(row, i);
+			let i = i + 1;
+		}
+		return;
+	}
+	
+	method void restrictSquare(int row, int col){
+		var Square square;
+		var int state;
+		
+		let square = getSquare(row, col);
+		let state = square.getState();
+		
+		if(state = EMPTY) {
+			do square.setState(RESTRICTED);
+		}
+		return;
+	}
+	
+	method void initGrid(){
+		var int i;
+		let grid = Array.new(size);
+		let i = 0;
+		
+		while(i < size){
+			let grid[i] = Array.new(size);
+			let i = i + 1;
+		}
+		return;
+	}
+	
+	method void initSquares(){
+		var Array row;
+		var int i, j;
+		let i = 0;
+		let j = 0;
+		
+		while(i < size){
+		let row = grid[i];
+			while(j < size){
+				let row[j] = Square.new();
+				let j = j + 1;
+			}
+			let i = i + 1;
+		}
+		return;
+	}
+	
+	method void disposeGrid() {
+		var int i;
+		let i = 0;
+		
+		while(i < size) {
+			do Memory.deAlloc(grid[i]);
+		}
+		do Memory.deAlloc(grid);
+		return;
+	}
+	
+	method void disposeSquares(){
+		var Square square;
+		var int i, j;
+		let i = 0;
+		let j = 0;
+		
+		while(i < size){
+			while(j < size){
+				let square = getSquare(i, j);
+				do Memory.deAlloc(square);
+				let j = j + 1;
+			}
+			let i = i + 1;
+		}
+		return;
+	}
+	
+	method Square getSquare(int row, int col) {
+		var Array gridRow;
+		let gridRow = grid[row];
+		return gridRow[col];
+	}
+	
+	method int getSize() {
+		return size;
+	}
+	
+	method void print(){
+		var Square square;
+		var int i, j;
+		let i = 0;
+		let j = 0;
+		while(i < size){
+			while(j < size){
+				let square = getSquare(i, j);
+				do square.print();
+			}
+			do Output.println();
+		}
+		do Output.println();
+		return;
+	}
+}

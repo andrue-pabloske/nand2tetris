@@ -1,0 +1,13 @@
+/** Prompts the user for the n, then initializes a board which solves the n queens problem*/
+
+class Main {
+	function void main() {
+		var int nQueens;
+		var Board board;
+		let nQueens = Keyboard.readInt("Input the number of queens: ");
+		let board = Board.new(nQueens);
+		do board.displaySolution();
+		do board.dispose();
+		return;
+	}
+}

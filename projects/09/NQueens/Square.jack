@@ -1,0 +1,43 @@
+/** Implements a unit on the board for the n queens problem */
+class Square {
+	field int state;
+	
+	static int EMPTY;
+	static int QUEEN;
+	static int RESTRICTED;
+	
+	constructor Square new() {
+		let EMPTY = 1;
+		let QUEEN = 2;
+		let RESTRICTED = 3;
+		let state = EMPTY;
+		return this;
+	}
+	
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	method void setState(int input) {
+		let state = input;
+		return;
+	}
+	
+	method int getState() {
+		return state;
+	}
+	
+	method void print() {
+		if(state = EMPTY) {
+			do Output.printString("o");
+		}
+		if(state = QUEEN) {
+			do Output.printString("q");
+		}
+		if(state = RESTRICTED) {
+			do Output.printString("x");
+		}
+		return;
+	}
+}
